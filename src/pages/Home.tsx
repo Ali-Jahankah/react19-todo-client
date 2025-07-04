@@ -1,4 +1,10 @@
-import React, { useEffect, useState, type FC, type ReactElement } from 'react';
+import React, {
+  useEffect,
+  useState,
+  type ChangeEvent,
+  type FC,
+  type ReactElement
+} from 'react';
 import { type IGetTodoResponse, type ITodo } from '../types/todos';
 import { useTodoStore } from '../state/todos';
 import axios from 'axios';
@@ -8,12 +14,28 @@ const Home: FC = (): React.ReactElement => {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [forceRefresh, setForceRefresh] = useState<boolean>(true);
+  const [editId, setEditId] = useState<number | null>(null);
+  const [editTitle, setEditTitle] = useState<string>('');
+  const [editDescription, setEditDescription] = useState<string>('');
 
   const todos: ITodo[] = useTodoStore((state) => state.todos);
   const setTodos = useTodoStore((state) => state.setTodos);
-
+  const updateTodo = useTodoStore((state) => state.updateTodo);
+  const updateHandler = async (todo: ITodo, action?: 'completed') => {
+    let updatedTodo: ITodo = todo;
+    if (action === 'completed') {
+      updatedTodo = { ...todo, completed: !todo.completed };
+    }
+    const isUpdated = await axios.put<ITodo>(
+      `http://localhost:4001/api/todos/${todo.id}`,
+      updatedTodo
+    );
+    if (isUpdated.data) {
+      updateTodo(isUpdated.data);
+      setEditId(null);
+    }
+  };
   useEffect(() => {
-    console.log('first');
     const fetchTodos = async (): Promise<void> => {
       try {
         const res = await axios.get<IGetTodoResponse>(
@@ -29,6 +51,19 @@ const Home: FC = (): React.ReactElement => {
   }, [setTodos, page, forceRefresh]);
   const nextPage = () => page < totalPages && setPage(page + 1);
   const prevPage = () => page > 1 && setPage(page - 1);
+  const EditHandler = (todo: ITodo, action: 'cancel' | 'edit'): void => {
+    if (action === 'edit') {
+      setEditId(todo.id);
+      setEditTitle(todo.title);
+      setEditDescription(todo.description);
+    }
+    if (action === 'cancel') {
+      setEditId(null);
+      setEditTitle('');
+      setEditDescription('');
+    }
+  };
+
   return (
     <main>
       <h1>Todo List</h1>
@@ -36,10 +71,58 @@ const Home: FC = (): React.ReactElement => {
         <h2>No Todos yet</h2>
       ) : (
         <ul>
-          {todos.map(({ id, title, completed }: ITodo): ReactElement => {
+          {todos.map((todo: ITodo): ReactElement => {
             return (
-              <li key={id}>
-                {title} {completed ? '✅' : '❌'}
+              <li key={todo.id}>
+                {editId === todo.id ? (
+                  <div>
+                    <input
+                      value={editTitle}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        setEditTitle(e.target.value)
+                      }
+                    />
+                    <input
+                      value={editDescription}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        setEditDescription(e.target.value)
+                      }
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        updateHandler({
+                          ...todo,
+                          title: editTitle,
+                          description: editDescription
+                        })
+                      }
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => EditHandler(todo, 'cancel')}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    {' '}
+                    <p>
+                      {todo.title}{' '}
+                      <span onClick={() => updateHandler(todo, 'completed')}>
+                        {todo.completed ? '✅' : '❌'}
+                      </span>{' '}
+                      <span onClick={() => EditHandler(todo, 'edit')}>
+                        {' '}
+                        ✏️{' '}
+                      </span>
+                    </p>
+                    <p>{todo.description}</p>
+                  </div>
+                )}
               </li>
             );
           })}
