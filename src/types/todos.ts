@@ -12,4 +12,11 @@ export interface IGetTodoResponse {
   totalPages: number;
   currentPage: number;
 }
+export interface ITodoStore {
+  todos: ITodo[];
+  setTodos: (todos: ITodo[]) => void;
+  addTodo: (todo: ITodo) => void;
+  updateTodo: (updatedTodo: ITodo) => void;
+  deleteTodo: (id: number) => void;
+}
 export type NewTodo = Omit<ITodo, 'id' | 'createdAt'>;
