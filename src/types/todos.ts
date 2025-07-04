@@ -15,7 +15,6 @@ export interface IGetTodoResponse {
 export interface ITodoStore {
   todos: ITodo[];
   setTodos: (todos: ITodo[]) => void;
-  addTodo: (todo: ITodo) => void;
   updateTodo: (updatedTodo: ITodo) => void;
   deleteTodo: (id: number) => void;
 }
