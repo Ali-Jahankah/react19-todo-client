@@ -7,6 +7,7 @@ import { useEditTodos } from '../hooks/useEditTodos';
 import Pagination from '../components/Pagination';
 import EditForm from '../components/EditForm';
 import SingleTodo from '../components/SingleTodo';
+import './home.css';
 
 const Home: FC = (): React.ReactElement => {
   const {
@@ -35,15 +36,28 @@ const Home: FC = (): React.ReactElement => {
   }, [page, forceRefresh]);
 
   return (
-    <main>
-      <h1>Todo List</h1>
+    <article className="home_container">
+      <h1 className="home_header">
+        <span className="header_spans">&lt;</span> Todo List{' '}
+        <span className="header_spans">&gt;</span>
+      </h1>
+      <TodoForm
+        page={page}
+        setPage={setPage}
+        setForceRefresh={setForceRefresh}
+      />
       {todos.length === 0 ? (
-        <h2>No Todos yet</h2>
+        <h2 className="home_header"> No Todos yet</h2>
       ) : (
-        <ul>
+        <ul className="home_ul">
           {todos.map((todo: ITodo): ReactElement => {
             return (
-              <li key={todo.id}>
+              <li
+                className={`home_li ${
+                  todo.completed ? 'completed' : 'not_completed'
+                }`}
+                key={todo.id}
+              >
                 {editId === todo.id ? (
                   <EditForm
                     editTitle={editTitle}
@@ -72,12 +86,7 @@ const Home: FC = (): React.ReactElement => {
         nextPage={nextPage}
         totalPages={totalPages}
       />
-      <TodoForm
-        page={page}
-        setPage={setPage}
-        setForceRefresh={setForceRefresh}
-      />
-    </main>
+    </article>
   );
 };
 export default Home;

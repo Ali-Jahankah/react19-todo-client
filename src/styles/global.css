@@ -1,0 +1,45 @@
+@import './reset.css';
+@import './variables.css';
+@import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300..700&display=swap');
+body {
+  font-family: 'Signika Negative', sans-serif;
+  font-optical-sizing: auto;
+}
+.body_container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--black);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.main {
+  flex: 1;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+}
+.btn {
+  padding: 0.5em 1.5em;
+  border: 2px solid;
+  border-image: linear-gradient(to right, var(--blue), var(--green));
+  border-image-slice: 1;
+  background: var(--black);
+  color: var(--green);
+  cursor: pointer;
+}
+.completed {
+  border: 2px solid;
+  border-image: linear-gradient(var(--black), var(--green));
+  border-image-slice: 1;
+}
+.not_completed {
+  border: 2px solid;
+  border-image: linear-gradient(var(--black), var(--red));
+  border-image-slice: 1;
+}

@@ -1,0 +1,51 @@
+.todo_container_completed {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em;
+}
+.todo_container_completed::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    var(--green),
+    var(--black),
+    var(--green)
+  );
+}
+.todo_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em;
+}
+.todo_container::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--gray), var(--black), var(--red));
+}
+.todo_description {
+  margin-top: 1em;
+  padding: 0.5em;
+  color: var(--gray);
+  letter-spacing: 1.5px;
+}
+.todo_title {
+  color: var(--red);
+  font-weight: 400;
+  letter-spacing: 1.6px;
+}
+.todo_btn {
+  color: var(--orange);
+}

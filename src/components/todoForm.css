@@ -1,0 +1,35 @@
+.form_section {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.new_todo_form fieldset {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 0.5em;
+  border: 2px solid;
+  border-image: linear-gradient(var(--orange), var(--red));
+  border-image-slice: 1;
+  text-align: center;
+  color: var(--gray);
+  letter-spacing: 3px;
+  font-size: 1.2rem;
+}
+.new_todo_input {
+  padding: 0.5em;
+  font-size: 1rem;
+  margin: 1em auto;
+  width: 300px;
+  border-bottom: 2px solid var(--orange);
+  background: transparent;
+  color: var(--gray);
+  letter-spacing: 2px;
+}
+.new_todo_btn {
+  margin: 2em auto 0em;
+  font-size: 1.2rem;
+}
+.form_error_text {
+  color: var(--red);
+  margin-top: 2em;
+}

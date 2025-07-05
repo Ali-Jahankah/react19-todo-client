@@ -8,7 +8,7 @@ import {
 } from 'react';
 import type { ITodo, NewTodo } from '../types/todos';
 import axios from 'axios';
-
+import './todoForm.css';
 const TodoForm: FC<{
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
@@ -52,28 +52,41 @@ const TodoForm: FC<{
     }
   };
   return (
-    <form onSubmit={formSubmitHandler}>
-      <input
-        value={title}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setTitle(e.target.value)
-        }
-        placeholder="Title"
-        required
-      />
-      <input
-        value={description}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setDescription(e.target.value)
-        }
-        placeholder="Description"
-        required
-      />
-      <button type="submit">Add Todo</button>
-      {isError && (
-        <p style={{ color: 'red' }}>* Please add title and description *</p>
-      )}
-    </form>
+    <section className="form_section">
+      <form onSubmit={formSubmitHandler} className="new_todo_form">
+        <fieldset>
+          <legend>Add a new Todo</legend>
+
+          <input
+            value={title}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setTitle(e.target.value)
+            }
+            placeholder="Title"
+            className="new_todo_input"
+            required
+          />
+          <input
+            value={description}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setDescription(e.target.value)
+            }
+            placeholder="Description"
+            className="new_todo_input"
+            required
+          />
+
+          <button type="submit" className="new_todo_btn btn">
+            Add Todo
+          </button>
+          {isError && (
+            <p className="form_error_text">
+              * Please add title and description *
+            </p>
+          )}
+        </fieldset>
+      </form>
+    </section>
   );
 };
 
