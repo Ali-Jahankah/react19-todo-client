@@ -34,7 +34,7 @@ const TodoForm: FC<{
     };
     try {
       const { status } = await axios.post<ITodo>(
-        'http://localhost:4001/api/todos',
+        `${import.meta.env.VITE_BASE_API}/todos`,
         newTodo
       );
       if (status === 201) {
@@ -66,6 +66,7 @@ const TodoForm: FC<{
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setDescription(e.target.value)
         }
+        placeholder="Description"
         required
       />
       <button type="submit">Add Todo</button>
